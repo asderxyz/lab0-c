@@ -49,11 +49,15 @@ bool q_insert_head(struct list_head *head, char *s)
     if (ele == NULL)
         return false;
 
-    ele->value = strdup(s);
-    if (ele->value == NULL) {
-        free(ele);
-        return false;
-    }
+
+    if (s != NULL) {
+        ele->value = strdup(s);
+        if (ele->value == NULL) {
+            free(ele);
+            return false;
+        }
+    } else
+        ele->value = NULL;
 
     list_add(&ele->list, head);
     return true;
@@ -69,11 +73,14 @@ bool q_insert_tail(struct list_head *head, char *s)
     if (ele == NULL)
         return false;
 
-    ele->value = strdup(s);
-    if (ele->value == NULL) {
-        free(ele);
-        return false;
-    }
+    if (s != NULL) {
+        ele->value = strdup(s);
+        if (ele->value == NULL) {
+            free(ele);
+            return false;
+        }
+    } else
+        ele->value = NULL;
 
     list_add_tail(&ele->list, head);
     return true;
