@@ -807,8 +807,14 @@ static bool do_show(int argc, char *argv[])
     return show_queue(0);
 }
 
+static bool do_hello(int argc, char *argv[])
+{
+    return (bool) printf("hello world\n");
+}
+
 static void console_init()
 {
+    ADD_COMMAND(hello, "                | Hello message");
     ADD_COMMAND(new, "                | Create new queue");
     ADD_COMMAND(free, "                | Delete queue");
     ADD_COMMAND(
