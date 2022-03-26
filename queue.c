@@ -98,7 +98,7 @@ element_t *q_remove_head(struct list_head *head, char *sp, size_t bufsize)
 /* Remove an element from tail of queue */
 element_t *q_remove_tail(struct list_head *head, char *sp, size_t bufsize)
 {
-    if (head == NULL || head->next == NULL)
+    if (head == NULL || head->next == head)
         return NULL;
 
     element_t *ele = list_entry(head->prev, element_t, list);
@@ -204,7 +204,7 @@ void q_swap(struct list_head *head)
             first_ele->value = second_ele->value;
             second_ele->value = tmp;
             first = second->next;
-            second = second->next;
+            second = second->next->next;
         }
     }
 }
