@@ -812,8 +812,47 @@ static bool do_hello(int argc, char *argv[])
     return (bool) printf("hello world\n");
 }
 
+/* shuffle */
+void q_shuffle(struct list_head *head)
+{
+    struct list_head *curr = head->next;
+    if (!list_empty(head) && !list_is_singular(head)) {
+        for (int cnt = q_size(head); cnt > 1; cnt--) {
+            int step = rand() % cnt;
+            while (--step > 0)
+                curr = curr->next;
+
+            list_move_tail(curr, head);
+            curr = head->next;
+        }
+    }
+}
+
+static bool do_shuffle(int argc, char *argv[])
+{
+    if (argc != 1) {
+        report(1, "%s takes no arguments", argv[0]);
+        return false;
+    }
+
+    if (!l_meta.l)
+        report(3, "Warning: Try to access null queue");
+    error_check();
+
+    set_noallocate_mode(true);
+    if (exception_setup(true))
+        q_shuffle(l_meta.l);
+    exception_cancel();
+
+    set_noallocate_mode(false);
+
+    show_queue(3);
+    return !error_check();
+}
+
 static void console_init()
 {
+    ADD_COMMAND(shuffle, "                | shullfe list");
     ADD_COMMAND(hello, "                | Hello message");
     ADD_COMMAND(new, "                | Create new queue");
     ADD_COMMAND(free, "                | Delete queue");
